@@ -1,93 +1,42 @@
 # Pizza Sales Data Analysis Project
 
-## PART 1: Connecting & Shaping Data
+🍕 Pizza Sales Data Analysis Dashboard (Power BI)
 
-### 📌 Tasks
-Before proceeding, try answering the following:
+A complete end-to-end data analytics project built using Power BI, involving data cleaning, modeling, DAX calculations, and interactive report creation.
 
-✅ How would you load and clean data from the given CSV files in Power BI?  
-✅ How would you ensure that all tables have the correct data types?  
-✅ How would you handle missing or null values in the datasets?  
-✅ How would you create a new column that extracts only the hour from the "time" field in the `orders` table?  
-✅ How would you create a new column in `pizza_types` that extracts only the first ingredient from the ingredient list?
+📌 Key Features
 
-<details>
-  <summary>💡 Show Solutions</summary>
+Imported and cleaned raw CSV datasets (orders, pizza types, sales, and details).
 
-- **Load Data:** Connect to all CSV files in Power BI and promote headers.
-- **Ensure Correct Data Types:**  
-  - `order_id`, `order_details_id`, `pizza_id` → Whole Numbers  
-  - `date` → Date Format  
-  - `time` → Time Format  
-  - `price` → Decimal  
-- **Handle Missing Values:** Replace nulls with default values or use `Remove Nulls`.
-- **Extract Hour from Time:**  
-  `Hour = HOUR(orders[time])`
-- **Extract First Ingredient:**  
-  `First Ingredient = LEFT(pizza_types[ingredients], FIND(",", pizza_types[ingredients]) - 1)`
+Built a relational data model with proper one-to-many relationships.
 
-</details>
+Created important DAX measures such as Total Revenue, Total Orders, AOV, Cumulative Sales, Popular/Least Popular Pizzas, etc.
 
----
+Designed an interactive dashboard with:
 
-## PART 2: Creating the Data Model
+Revenue & Sales KPIs
 
-### 📌 Model Design
-✅ Arrange tables properly in **Model View**  
-✅ Define primary and foreign key relationships  
-✅ Ensure correct **one-to-many** relationships  
-✅ Check if any **inactive relationships** are needed  
-✅ Set appropriate **filter flow directions**  
+Category-wise revenue comparison
 
-<details>
-  <summary>💡 Show Solutions</summary>
+Popular vs. least popular pizzas
 
-- **Arrange Tables:** Place lookup tables (`pizza_types`, `pizzas`) above transaction tables (`order_details`, `orders`).
-- **Relationships:**
-  - `orders[order_id]` → `order_details[order_id]` (One-to-Many)
-  - `pizzas[pizza_id]` → `order_details[pizza_id]` (One-to-Many)
-  - `pizza_types[pizza_type_id]` → `pizzas[pizza_type_id]` (One-to-Many)
-- **Cardinality:** One-to-Many (Orders → Order Details).
-- **Inactive Relationships:** None required.
-- **Filter Direction:** One-way filtering from lookup tables to transaction tables.
+Revenue trends over time
 
-</details>
+Region-wise orders (map visual)
 
----
+Added advanced features like conditional formatting, drillthrough pages, and custom tooltips.
 
-## PART 3: Adding DAX Measures
+Optimized report performance and improved user experience with slicers and visual interactions.
 
-### 📌 Key Measures
-Before revealing the formulas, try creating the following DAX measures:
+🧰 Tech Stack
 
-✅ `Total Orders`  
-✅ `Total Pizzas Sold`  
-✅ `Total Revenue`  
-✅ `Average Order Value`  
-✅ `Most Popular Pizza Type`  
-✅ `Least Ordered Pizza Type`  
-✅ `Total Revenue by Category`  
-✅ `Cumulative Revenue`  
+Power BI
 
-<details>
-  <summary>💡 Show DAX Measures</summary>
+DAX (Data Analysis Expressions)
 
-```DAX
-Total Orders = COUNT(orders[order_id])
-Total Pizzas Sold = SUM(order_details[quantity])
-Total Revenue = SUMX(order_details, order_details[quantity] * pizzas[price])
-Average Order Value = [Total Revenue] / [Total Orders]
-Most Popular Pizza = TOPN(1, VALUES(order_details[pizza_id]), [Total Pizzas Sold])
-Least Popular Pizza = TOPN(1, VALUES(order_details[pizza_id]), [Total Pizzas Sold], ASC)
-Total Revenue by Category = SUMX(order_details, order_details[quantity] * pizzas[price])
-Cumulative Revenue = CALCULATE([Total Revenue], FILTER(ALL(orders[date]), orders[date] <= MAX(orders[date])))
-```
+Data Modeling
 
-</details>
-
----
-
-## PART 4: Building the Report
+CSV-based ETL within Power BI
 
 ### 📊 **Dashboard Layout**
 
@@ -125,3 +74,4 @@ Cumulative Revenue = CALCULATE([Total Revenue], FILTER(ALL(orders[date]), orders
 🎯 Capture a **Final Report Screenshot**.  
 
 ---
+
